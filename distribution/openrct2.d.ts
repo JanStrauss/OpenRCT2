@@ -1893,6 +1893,16 @@ declare global {
          */
         getSimplexFbmNoiseFn(frequency: number, octaves: number, lacunarity: number, persistence: number): NoiseFn;
         getSimplexFbmNoiseFn(frequency: number, octaves: number, lacunarity: number, persistence: number, seed: number): NoiseFn;
+
+        /**
+         * Simulates hydraulic terrain erosion.
+         *
+         * @param generateArgs the generatorState to operate on
+         *
+         * @see https://nickmcd.me/2020/04/10/simple-particle-based-hydraulic-erosion/
+         * @see https://github.com/weigert/SimpleErosion/
+         */
+        simulateErosion(generateArgs: EditorLandscapeGenerateArgs): Number[];
     }
 
     /**

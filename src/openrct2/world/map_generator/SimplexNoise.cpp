@@ -162,7 +162,7 @@ namespace OpenRCT2::World::MapGenerator
     /**
      * Smooths the height map.
      */
-    static void smoothHeightMap(int32_t iterations, HeightMap& heightMap)
+    static void smoothHeightMap(int32_t iterations, HeightMap<uint8_t>& heightMap)
     {
         for (auto i = 0; i < iterations; i++)
         {
@@ -186,7 +186,7 @@ namespace OpenRCT2::World::MapGenerator
         }
     }
 
-    static void generateSimplexNoise(Settings* settings, HeightMap& heightMap)
+    static void generateSimplexNoise(Settings* settings, HeightMap<uint8_t>& heightMap)
     {
         float freq = settings->simplex_base_freq / 100.0f * (1.0f / heightMap.width);
         int32_t octaves = settings->simplex_octaves;
@@ -214,7 +214,7 @@ namespace OpenRCT2::World::MapGenerator
         // Create the temporary height map and initialise
         const auto& mapSize = settings->mapSize;
         const auto density = 2;
-        auto heightMap = HeightMap(mapSize.x, mapSize.y, density);
+        auto heightMap = HeightMap<uint8_t>(mapSize.x, mapSize.y, density);
 
         generateSimplexNoise(settings, heightMap);
         smoothHeightMap(2 + (UtilRand() % 6), heightMap);

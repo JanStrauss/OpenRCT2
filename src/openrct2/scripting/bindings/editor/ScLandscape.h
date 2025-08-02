@@ -25,6 +25,7 @@ namespace OpenRCT2::Scripting
         std::shared_ptr<ScNoiseFn> getSimplexFbmNoiseFn(
             float frequency, int32_t octaves, float lacunarity, float persistence, DukValue maybeSeed);
 
+        std::vector<float> simulateErosion(DukValue landscapeArgs);
     public:
         static void Register(duk_context* ctx);
     };

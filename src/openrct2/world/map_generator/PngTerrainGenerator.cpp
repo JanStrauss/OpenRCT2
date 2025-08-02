@@ -26,7 +26,7 @@
 
 namespace OpenRCT2::World::MapGenerator
 {
-    static HeightMap _heightMapData{};
+    static HeightMap<uint8_t> _heightMapData{};
 
     /**
      * Return the tile coordinate that matches the given pixel of a heightmap
@@ -57,7 +57,7 @@ namespace OpenRCT2::World::MapGenerator
             }
 
             // Allocate memory for the height map values, one byte pixel
-            _heightMapData = HeightMap(width, height);
+            _heightMapData = HeightMap<uint8_t>(width, height);
 
             // Copy average RGB value to mono bitmap
             constexpr auto numChannels = 4;
@@ -104,10 +104,10 @@ namespace OpenRCT2::World::MapGenerator
     /**
      * Applies box blur to the surface N times
      */
-    static void SmoothHeightmap(HeightMap& src, int32_t strength)
+    static void SmoothHeightmap(HeightMap<uint8_t>& src, int32_t strength)
     {
         // Create buffer to store one channel
-        HeightMap temp{ src.width, src.height };
+        HeightMap<uint8_t> temp{ src.width, src.height };
 
         for (int32_t i = 0; i < strength; i++)
         {

@@ -52,11 +52,12 @@ namespace OpenRCT2::World::MapGenerator
         bool normalize_height = true;
     };
 
+    template<typename T>
     class HeightMap;
 
     void generate(Settings* settings);
     void resetSurfaces(Settings* settings);
     void setWaterLevel(int32_t waterLevel);
-    void setMapHeight(Settings* settings, const HeightMap& heightMap);
+    void setMapHeight(Settings* settings, const HeightMap<uint8_t>& heightMap);
 
 } // namespace OpenRCT2::World::MapGenerator

@@ -11,6 +11,7 @@
 
 #include "../core/Numerics.hpp"
 
+#include <cmath>
 #include <cstdint>
 
 constexpr int16_t kLocationNull = -32768;
@@ -880,5 +881,190 @@ struct ScreenRect : public RectRange<ScreenCoordsXY>
     constexpr bool Contains(const ScreenCoordsXY& coords) const
     {
         return coords.x >= GetLeft() && coords.x <= GetRight() && coords.y >= GetTop() && coords.y <= GetBottom();
+    }
+};
+
+struct FloatCoordsXY
+{
+    float x{};
+    float y{};
+
+    constexpr FloatCoordsXY() = default;
+    constexpr FloatCoordsXY(float _x, float _y)
+        : x(_x)
+        , y(_y)
+    {
+    }
+
+    constexpr FloatCoordsXY& operator+=(const FloatCoordsXY& rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
+
+    constexpr FloatCoordsXY& operator-=(const FloatCoordsXY& rhs)
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        return *this;
+    }
+
+    constexpr FloatCoordsXY& operator*=(const float rhs)
+    {
+        x *= rhs;
+        y *= rhs;
+        return *this;
+    }
+
+    constexpr FloatCoordsXY& operator/=(const float rhs)
+    {
+        x /= rhs;
+        y /= rhs;
+        return *this;
+    }
+
+    constexpr FloatCoordsXY operator+(const FloatCoordsXY& rhs) const
+    {
+        return { x + rhs.x, y + rhs.y };
+    }
+
+    constexpr FloatCoordsXY operator-(const FloatCoordsXY& rhs) const
+    {
+        return { x - rhs.x, y - rhs.y };
+    }
+
+    constexpr FloatCoordsXY operator*(const float rhs) const
+    {
+        return { x * rhs, y * rhs };
+    }
+
+    constexpr FloatCoordsXY operator/(const float rhs) const
+    {
+        return { x / rhs, y / rhs };
+    }
+
+    constexpr float Length() const
+    {
+        return sqrt(pow(x, 2) + pow(y, 2));
+    }
+
+    constexpr FloatCoordsXY Normalize() const
+    {
+        const auto length = Length();
+        return { x / length, y / length };
+    }
+
+    constexpr bool operator==(const FloatCoordsXY& other) const
+    {
+        return x == other.x && y == other.y;
+    }
+
+    constexpr bool operator!=(const FloatCoordsXY& other) const
+    {
+        return !(*this == other);
+    }
+
+    constexpr TileCoordsXY AsTileCoordsXY() const
+    {
+        return {
+            static_cast<int32_t>(x),
+            static_cast<int32_t>(y)
+        };
+    }
+};
+
+struct FloatCoordsXYZ : FloatCoordsXY
+{
+    float z{};
+
+    constexpr FloatCoordsXYZ() = default;
+    constexpr FloatCoordsXYZ(float _x, float _y, float _z)
+        : FloatCoordsXY(_x, _y)
+        , z(_z)
+    {
+    }
+
+    constexpr FloatCoordsXYZ(const FloatCoordsXY& c, float _z)
+        : FloatCoordsXY(c)
+        , z(_z)
+    {
+    }
+
+    constexpr FloatCoordsXYZ& operator+=(const FloatCoordsXYZ& rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        z += rhs.z;
+        return *this;
+    }
+
+    constexpr FloatCoordsXYZ& operator-=(const FloatCoordsXYZ& rhs)
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        z -= rhs.z;
+        return *this;
+    }
+
+    constexpr FloatCoordsXY& operator*=(const float rhs)
+    {
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
+        return *this;
+    }
+
+    constexpr FloatCoordsXY& operator/=(const float rhs)
+    {
+        x /= rhs;
+        y /= rhs;
+        z /= rhs;
+        return *this;
+    }
+
+    constexpr FloatCoordsXYZ operator+(const FloatCoordsXYZ& rhs) const
+    {
+        return { x + rhs.x, y + rhs.y, z + rhs.z };
+    }
+
+    constexpr FloatCoordsXYZ operator-(const FloatCoordsXYZ& rhs) const
+    {
+        return { x - rhs.x, y - rhs.y, z - rhs.z };
+    }
+
+    constexpr FloatCoordsXYZ operator*(const float rhs) const
+    {
+        return { x * rhs, y * rhs , z * rhs };
+    }
+
+    constexpr FloatCoordsXYZ operator/(const float rhs) const
+    {
+        return { x / rhs, y / rhs , z / rhs };
+    }
+
+    constexpr bool operator==(const FloatCoordsXYZ& other) const
+    {
+        return x == other.x && y == other.y && z == other.z;
+    }
+
+    constexpr float Length() const
+    {
+        return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+    }
+
+    constexpr FloatCoordsXYZ Normalize() const
+    {
+        const auto length = Length();
+        return { x / length, y / length, z / length };
+    }
+
+    constexpr TileCoordsXYZ AsTileCoordsXYZ() const
+    {
+        return {
+            static_cast<int32_t>(x),
+            static_cast<int32_t>(y),
+            static_cast<int32_t>(z)
+        };
     }
 };
